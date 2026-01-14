@@ -1,1 +1,32 @@
-# ProjectSDT
+# University Library Management System
+
+**Student:** Laura Eraso Lorenzo ERASMUS
+
+## Project Description
+This project focuses on developing a management system for a university library. The primary goal is to efficiently manage a diverse inventory of resources (books, digital magazines, audiobooks), user records, and the workflow for loans and returns.
+
+The system will allow:
+* Management of a comprehensive catalog of library materials.
+* User registration with different access levels (e.g., Students and Professors).
+* Monitoring loan deadlines and calculating penalties for late returns.
+* Automating notifications for users when a reserved resource becomes available.
+
+This solution aims to automate administrative tasks, ensuring data integrity and providing a seamless user experience.
+
+## Design Patterns
+
+### 1. Singleton (Creational)
+**Use in project:** To manage the single instance of the library catalog (central database handler).
+**Justification:** In a library system, it is critical that all modules access the same data source to avoid inventory inconsistencies. The Singleton pattern ensures that only one instance of the catalog exists, saving memory and ensuring that if a book is marked as "loaned" in one part of the app, it reflects immediately across the entire system. It provides stricter control over global state compared to simple global variables.
+
+### 2. Factory Method (Creational)
+**Use in project:** To handle the creation of different types of library materials (objects like `PhysicalBook`, `DigitalMagazine`, or `Audiobook`).
+**Justification:** This pattern decouples the object creation logic from the code that uses them. If the library decides to add new formats in the future, we only need to update the Factory without modifying the existing management logic. It offers better scalability than manual instantiation via direct constructors.
+
+### 3. Observer (Behavioral)
+**Use in project:** Implemented within the reservation and availability alert system.
+**Justification:** When a highly requested book is currently on loan, users can subscribe to a waiting list. The Observer pattern allows the "Book" object to automatically notify all subscribed users as soon as its status changes to "Available." This eliminates the need for constant polling, optimizing system performance and improving user experience.
+
+### 4. Strategy (Behavioral)
+**Use in project:** To calculate fine rates for overdue returns based on user types.
+**Justification:** Library policies often differ; for instance, students might have a standard daily fee, while professors might have a grace period or a reduced rate. The Strategy pattern encapsulates these calculation algorithms independently. This results in cleaner, more maintainable code, as business rule changes do not require modifications to the core "Loan" class.
