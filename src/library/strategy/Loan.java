@@ -1,4 +1,4 @@
-package library;
+package library.strategy;
 
 public class Loan {
     private PenaltyStrategy strategy;

@@ -1,4 +1,4 @@
-package library;
+package library.factory;
 
 public class MaterialFactory {
     public LibraryMaterial createMaterial(String type, String title) {

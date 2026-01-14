@@ -1,6 +1,7 @@
-package library;
+package library.factory;
 import java.util.ArrayList;
 import java.util.List;
+import library.observer.Observer;
 
 public class PhysicalBook implements LibraryMaterial {
     private String title;

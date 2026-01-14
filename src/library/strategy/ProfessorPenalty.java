@@ -1,4 +1,4 @@
-package library;
+package library.strategy;
 
 public class ProfessorPenalty implements PenaltyStrategy {
     @Override

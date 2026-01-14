@@ -1,7 +1,8 @@
-package library;
+package library.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import library.factory.LibraryMaterial;
 
 /**
  * Singleton Pattern: Ensures there's only one inventory instance 

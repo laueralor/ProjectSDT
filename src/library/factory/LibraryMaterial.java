@@ -1,4 +1,4 @@
-package library;
+package library.factory;
 
 public interface LibraryMaterial {
     String getDetails();
