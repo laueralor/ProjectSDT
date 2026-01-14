@@ -6,7 +6,7 @@ This document details the architectural decisions and design patterns implemente
 
 Below is the integrated class diagram showing the core structure and how the design patterns interact.
 
-![Class Diagram](./class_diagram.png)
+![Class Diagram](./docs/class_diagram.png)
 
 ### Implemented Design Patterns
 
@@ -24,3 +24,13 @@ Below is the integrated class diagram showing the core structure and how the des
 4. **Strategy (PenaltyStrategy):**
    - Defines a family of algorithms for fine calculation.
    - Allows switching between `StudentPenalty` and `ProfessorPenalty` at runtime.
+
+## Sequence Diagrams
+
+### Use Case 1: Adding a Material
+This sequence demonstrates the interaction between the **MaterialFactory** and the **LibraryInventory** (Singleton).
+![Sequence 1](./docs/sequence_1.png)
+
+### Use Case 2: Returning a Book
+This sequence illustrates the **Strategy** pattern calculating the fine and the **Observer** pattern notifying waiting users.
+![Sequence 2](./docs/sequence_2.png)
