@@ -56,11 +56,13 @@ In this milestone, I integrated **RabbitMQ** to enable asynchronous communicatio
 I have implemented a Continuous Integration pipeline using **GitHub Actions**.
 
 ### How it works:
-* **Trigger:** Every time code is pushed to the `5-messaging-and-cicd` branch, the pipeline starts automatically.
+* **Trigger:** Every time code is pushed to the `5-university-library-management` branch, the pipeline starts automatically.
 * **Build Stage:** The pipeline sets up a Java 11 environment and compiles all microservices using Maven.
 * **Docker Stage:** It verifies the `Dockerfile` of each service and builds the images using `docker-compose`.
 
-### How to run locally:
-To deploy the entire system (including RabbitMQ) in a local Docker environment, use:
-```bash
-docker-compose up --build
+### How to run the system (for grading)
+1. Clone the repository and move to the branch `5-university-library-management`.
+2. Ensure Docker is running.
+3. Open a terminal in the root folder and run:
+   `docker compose up --build`
+4. Use the provided Postman collection in the `/tests/Postman_Tests.json` folder to test the services.
