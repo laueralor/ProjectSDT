@@ -61,3 +61,31 @@ The diagram below shows the decentralized nature of the services, the API Gatewa
 
 ### Relevance to the Project
 While overkill for a simple library, this architecture would be ideal for a real-world University system serving thousands of campuses. It allows the Inventory and Loan services to evolve independently without redeploying the whole system.
+
+## 3. Event-Driven Architecture (EDA)
+
+### Description
+In an Event-Driven Architecture, the system's components react to state changes, known as "events." Instead of services calling each other directly, they communicate asynchronously through an **Event Bus** or **Message Broker**.
+
+For our Library System, this translates perfectly to our **Observer pattern** logic:
+- When a book is returned, the **Inventory Module** publishes a `BookReturned` event.
+- The **Notification Service** (the Observer) listens for this event and alerts students.
+- Simultaneously, the **Fine Service** and **Analytics Service** can consume the same event to calculate penalties or update library statistics without the Inventory Module knowing they exist.
+
+### Architectural Diagrams
+
+#### Event Flow View
+The following diagram shows how the Event Bus acts as a mediator between the producer and multiple independent consumers.
+
+![Event-Driven Architecture](./docs/event_driven_arch.png)
+
+### Pros and Cons
+
+| Pros | Cons |
+| :--- | :--- |
+| **Extreme Decoupling:** The producer (Inventory) doesn't need to know who is listening to the events. | **Tracing Difficulty:** It can be hard to track the flow of a specific transaction across many asynchronous events. |
+| **High Responsiveness:** Multiple services can react to the same event simultaneously. | **Broker Dependency:** If the Message Broker goes down, communication between services is lost. |
+| **Extensibility:** Adding a new feature (like an Analytics service) is easy; just make it listen to existing events. | **Complexity:** Requires specialized infrastructure (like RabbitMQ or Apache Kafka). |
+
+### Relevance to the Project
+This architecture is the natural evolution of our **Observer Pattern**. It provides a professional way to handle notifications and secondary tasks (like fine calculation) without bloating the main inventory logic.
