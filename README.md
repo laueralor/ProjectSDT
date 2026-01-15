@@ -30,3 +30,9 @@ This solution aims to automate administrative tasks, ensuring data integrity and
 ### 4. Strategy (Behavioral)
 **Use in project:** To calculate fine rates for overdue returns based on user types.
 **Justification:** Library policies often differ; for instance, students might have a standard daily fee, while professors might have a grace period or a reduced rate. The Strategy pattern encapsulates these calculation algorithms independently. This results in cleaner, more maintainable code, as business rule changes do not require modifications to the core "Loan" class.
+
+## Pruebas del Sistema
+Para verificar el funcionamiento de los microservicios, se ha incluido una colección de Postman:
+1. Importar el archivo `tests/Postman_Tests.json` en Postman.
+2. Asegurarse de que los servicios están activos en los puertos 8080, 8081 y 8082.
+3. Ejecutar las peticiones de la colección.
