@@ -50,3 +50,17 @@ In this milestone, I integrated **RabbitMQ** to enable asynchronous communicatio
 * **Decoupling:** The Loan Service doesn't need to know if the Notification Service is online or reachable. It only cares about the message broker.
 * **Fault Tolerance:** If the Notification Service goes down, messages stay safely in the queue. They are processed automatically once the service restarts.
 * **Scalability:** We can easily add more instances of the Notification Service to handle high traffic without affecting the Loan Service performance.
+
+## CI/CD Pipeline (GitHub Actions)
+
+I have implemented a Continuous Integration pipeline using **GitHub Actions**.
+
+### How it works:
+* **Trigger:** Every time code is pushed to the `5-messaging-and-cicd` branch, the pipeline starts automatically.
+* **Build Stage:** The pipeline sets up a Java 11 environment and compiles all microservices using Maven.
+* **Docker Stage:** It verifies the `Dockerfile` of each service and builds the images using `docker-compose`.
+
+### How to run locally:
+To deploy the entire system (including RabbitMQ) in a local Docker environment, use:
+```bash
+docker-compose up --build
