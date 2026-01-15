@@ -1,4 +1,9 @@
-package library.observer;   
+package library.observer;
+
+/**
+ * Implementación concreta de un observador. Representa a un usuario de la biblioteca que se suscribe a las alertas 
+ * de disponibilidad de un libro específico.
+ */
 
 public class Student implements Observer {
     private String name;

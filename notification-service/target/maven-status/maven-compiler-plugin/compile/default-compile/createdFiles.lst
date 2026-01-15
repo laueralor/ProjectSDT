@@ -1,3 +1,4 @@
 com/library/notification/NotificationRequest.class
 com/library/notification/NotificationController.class
+com/library/notification/RabbitMQReceiver.class
 com/library/notification/NotificationApplication.class

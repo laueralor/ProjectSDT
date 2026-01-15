@@ -3,6 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 import library.observer.Observer;
 
+/**
+ * Representación de un libro físico. Actúa como el 'Sujeto' en el patrón Observer, 
+ * manteniendo una lista de usuarios interesados y notificándoles automáticamente cuando su estado cambia a disponible.
+ */
+
 public class PhysicalBook implements LibraryMaterial {
     private String title;
     private boolean isAvailable;

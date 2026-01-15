@@ -36,3 +36,17 @@ To verify the microservices functionality, a Postman collection has been include
 1. Import the file `tests/Postman_Tests.json` into Postman.
 2. Ensure all three services are running on ports 8080 (Inventory), 8081 (Loan), and 8082 (Notification).
 3. Run the requests included in the collection to test the system.
+
+## Milestone 5: Message Queue Integration (RabbitMQ)
+
+In this milestone, I integrated **RabbitMQ** to enable asynchronous communication between the `Loan Service` and the `Notification Service`.
+
+### How it works:
+1. When a penalty is calculated in the `Loan Service`, it doesn't call the `Notification Service` directly.
+2. Instead, it sends a message to a RabbitMQ queue named `libraryQueue`.
+3. The `Notification Service` listens to this queue and processes the message as soon as it's available.
+
+### Architecture Benefits :
+* **Decoupling:** The Loan Service doesn't need to know if the Notification Service is online or reachable. It only cares about the message broker.
+* **Fault Tolerance:** If the Notification Service goes down, messages stay safely in the queue. They are processed automatically once the service restarts.
+* **Scalability:** We can easily add more instances of the Notification Service to handle high traffic without affecting the Loan Service performance.

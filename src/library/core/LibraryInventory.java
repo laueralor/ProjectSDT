@@ -5,6 +5,10 @@ import java.util.List;
 import library.factory.LibraryMaterial;
 
 /**
+ * Clase que gestiona el inventario global de la biblioteca. 
+ * Implementa el patrón Singleton para asegurar que solo exista una lista de materiales en toda la aplicación, 
+ * evitando duplicidad de datos.
+ * 
  * Singleton Pattern: Ensures there's only one inventory instance 
  * for the entire university library.
  */

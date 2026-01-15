@@ -1,5 +1,10 @@
 package library.strategy;
 
+/**
+ * Clase que gestiona el préstamo de un material. Utiliza una instancia de PenaltyStrategy para calcular la multa final, 
+ * sin necesidad de conocer los detalles internos de cómo se calcula dicha penalización.
+ */
+
 public class Loan {
     private PenaltyStrategy strategy;
 
