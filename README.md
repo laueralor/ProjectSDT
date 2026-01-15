@@ -31,8 +31,8 @@ This solution aims to automate administrative tasks, ensuring data integrity and
 **Use in project:** To calculate fine rates for overdue returns based on user types.
 **Justification:** Library policies often differ; for instance, students might have a standard daily fee, while professors might have a grace period or a reduced rate. The Strategy pattern encapsulates these calculation algorithms independently. This results in cleaner, more maintainable code, as business rule changes do not require modifications to the core "Loan" class.
 
-## Pruebas del Sistema
-Para verificar el funcionamiento de los microservicios, se ha incluido una colección de Postman:
-1. Importar el archivo `tests/Postman_Tests.json` en Postman.
-2. Asegurarse de que los servicios están activos en los puertos 8080, 8081 y 8082.
-3. Ejecutar las peticiones de la colección.
+## System Testing
+To verify the microservices functionality, a Postman collection has been included:
+1. Import the file `tests/Postman_Tests.json` into Postman.
+2. Ensure all three services are running on ports 8080 (Inventory), 8081 (Loan), and 8082 (Notification).
+3. Run the requests included in the collection to test the system.
