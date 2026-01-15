@@ -2,9 +2,9 @@ name: Java CI/CD Pipeline
 
 on:
   push:
-    branches: [ 5-messaging-and-cicd ] # Se activa al subir a esta rama
+    branches: [ 5-university-library-management ] # Se activa al subir a esta rama
   pull_request:
-    branches: [ 5-messaging-and-cicd ]
+    branches: [ 5-university-library-management ]
 
 jobs:
   build-and-test:
@@ -22,8 +22,8 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn clean package -DskipTests # Compila los 3 servicios
+      run: mvn clean package -DskipTests 
 
     - name: Build Docker Images
       run: |
-        docker-compose build # Verifica que los Dockerfiles funcionan
+        docker-compose build 
