@@ -2,7 +2,7 @@ name: Java CI/CD Pipeline
 
 on:
   push:
-    branches: [ 5-university-library-management ] # Se activa al subir a esta rama
+    branches: [ 5-university-library-management ]
   pull_request:
     branches: [ 5-university-library-management ]
 
@@ -21,9 +21,15 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build with Maven
-      run: mvn clean package -DskipTests 
+    - name: Build All Services
+      run: |
+        for service in inventory-service loan-service notification-service; do
+          echo "Building $service..."
+          cd $service
+          mvn clean package -DskipTests
+          cd ..
+        done
 
     - name: Build Docker Images
       run: |
-        docker-compose build 
+        docker-compose build
