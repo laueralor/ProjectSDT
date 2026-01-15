@@ -23,12 +23,10 @@ jobs:
 
     - name: Build All Services
       run: |
-        for service in inventory-service loan-service notification-service; do
-          echo "Building $service..."
-          cd $service
-          mvn clean package -DskipTests
-          cd ..
-        done
+        # Usamos flags para asegurar que descargue todo y no falle por warnings
+        mvn clean package -DskipTests -f inventory-service/pom.xml
+        mvn clean package -DskipTests -f loan-service/pom.xml
+        mvn clean package -DskipTests -f notification-service/pom.xml
 
     - name: Build Docker Images
       run: |
