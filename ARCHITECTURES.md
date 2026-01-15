@@ -89,3 +89,29 @@ The following diagram shows how the Event Bus acts as a mediator between the pro
 
 ### Relevance to the Project
 This architecture is the natural evolution of our **Observer Pattern**. It provides a professional way to handle notifications and secondary tasks (like fine calculation) without bloating the main inventory logic.
+
+---
+
+## 4. Final Comparison and Selection
+
+### Comparative Analysis
+
+| Feature | Monolithic | Microservices | Event-Driven |
+| :--- | :--- | :--- | :--- |
+| **Complexity** | Low | High | Medium-High |
+| **Scalability** | Limited | High | Very High |
+| **Development Speed** | Fast (Initial) | Slow | Medium |
+| **Deployment** | Simple | Complex | Complex |
+| **Maintenance** | Harder as it grows | Easier (Per service) | Flexible |
+
+### Selected Architecture: Monolithic Architecture
+
+For the current scope of the **University Library Management System**, I have selected the **Monolithic Architecture** as the most suitable choice.
+
+#### Justification:
+1. **Scope Alignment:** Our project is a proof-of-concept focused on the implementation of Design Patterns (Singleton, Factory, Observer, Strategy). A monolithic structure allows these patterns to interact directly in memory, which is the most efficient way to demonstrate their logic without the overhead of network configuration.
+2. **Resource Efficiency:** As a university project, the Monolith requires fewer resources to run, test, and deploy. It avoids the "distributed monolith" trap where complexity increases without a real need for independent scaling.
+3. **Operational Simplicity:** The current requirements do not justify the operational costs of managing a service mesh or a message broker. The simplicity of a single codebase ensures that the focus remains on high-quality object-oriented design.
+
+#### Conclusion:
+While **Microservices** and **Event-Driven** styles offer superior scalability and fault isolation for global systems, the **Monolithic style** provides the necessary balance of performance and simplicity for this educational stage, ensuring a robust and maintainable system.
