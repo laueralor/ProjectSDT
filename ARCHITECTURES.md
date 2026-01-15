@@ -28,3 +28,36 @@ The following diagram illustrates how the components are integrated within a sin
 
 ### Relevance to the Project
 The current state of our University Library project follows this style. It is highly effective for the current proof-of-concept scope, as it allows for rapid development and straightforward implementation of design patterns without the complexity of network communication.
+
+## 2. Microservices Architecture
+
+### Description
+In this architecture, the Library System is decomposed into small, independent services that communicate over a network (typically via REST APIs or Message Brokers). Each service manages its own logic and database, ensuring loose coupling.
+
+For our project, the system would be split into:
+- **Inventory Service:** Handles the creation (Factory) and storage of materials.
+- **Loan & Penalty Service:** Manages the borrowing logic and calculates fines using the Strategy pattern.
+- **Notification Service:** A dedicated service for the Observer logic to alert users.
+
+### Architectural Diagrams
+
+#### Component and Interaction View
+The diagram below shows the decentralized nature of the services, the API Gateway, and the independent databases.
+
+![Microservices Architecture](./docs/microservices_architecture.png)
+
+
+
+[Image of microservices software architecture diagram]
+
+
+### Pros and Cons
+
+| Pros | Cons |
+| :--- | :--- |
+| **Independent Scalability:** Each service (e.g., Notifications) can be scaled based on its specific demand. | **High Complexity:** Significant overhead in managing network communication, service discovery, and deployment. |
+| **Fault Isolation:** If the Penalty service fails, users can still browse the inventory. | **Data Consistency:** Managing distributed transactions across multiple databases is difficult. |
+| **Technology Diversity:** Different services can be written in different languages if needed. | **Latency:** Network calls between services are slower than local method calls. |
+
+### Relevance to the Project
+While overkill for a simple library, this architecture would be ideal for a real-world University system serving thousands of campuses. It allows the Inventory and Loan services to evolve independently without redeploying the whole system.
