@@ -1,4 +1,4 @@
-package main.java.com.library.inventory;
+package com.library.inventory;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.*;

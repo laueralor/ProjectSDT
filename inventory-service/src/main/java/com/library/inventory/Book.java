@@ -1,4 +1,4 @@
-package main.java.com.library.inventory;
+package com.library.inventory;
 
 public class Book {
     private String id;
