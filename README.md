@@ -1,68 +1,100 @@
-# University Library Management System
+# 🏛️ Distributed University Library Management System
 
-**Student:** Laura Eraso Lorenzo ERASMUS
+A distributed, event-driven microservices platform designed to handle university library workflows, inventory cataloging, loan lifecycle tracking, automated late-return penalties, and asynchronous user notifications.
 
-## Project Description
-This project focuses on developing a management system for a university library. The primary goal is to efficiently manage a diverse inventory of resources (books, digital magazines, audiobooks), user records, and the workflow for loans and returns.
+Developed as an individual engineering project during the **Erasmus Program**.
 
-The system will allow:
-* Management of a comprehensive catalog of library materials.
-* User registration with different access levels (e.g., Students and Professors).
-* Monitoring loan deadlines and calculating penalties for late returns.
-* Automating notifications for users when a reserved resource becomes available.
+---
 
-This solution aims to automate administrative tasks, ensuring data integrity and providing a seamless user experience.
+## 🏗️ Architecture & Microservices Overview
 
-## Design Patterns
+The platform is designed following a decoupled, service-oriented architecture with asynchronous event-driven messaging:
 
-### 1. Singleton (Creational)
-**Use in project:** To manage the single instance of the library catalog (central database handler).
-**Justification:** In a library system, it is critical that all modules access the same data source to avoid inventory inconsistencies. The Singleton pattern ensures that only one instance of the catalog exists, saving memory and ensuring that if a book is marked as "loaned" in one part of the app, it reflects immediately across the entire system. It provides stricter control over global state compared to simple global variables.
+```
++-------------------+       +-------------------+       +-----------------------+
+| Inventory Service |       |   Loan Service    | ----> | RabbitMQ Message Bus  |
+|    (Port 8080)    |       |    (Port 8081)    |       |    (libraryQueue)     |
++-------------------+       +-------------------+       +-----------------------+
+                                                                    |
+                                                                    v
+                                                        +-----------------------+
+                                                        | Notification Service  |
+                                                        |      (Port 8082)      |
+                                                        +-----------------------+
+```
 
-### 2. Factory Method (Creational)
-**Use in project:** To handle the creation of different types of library materials (objects like `PhysicalBook`, `DigitalMagazine`, or `Audiobook`).
-**Justification:** This pattern decouples the object creation logic from the code that uses them. If the library decides to add new formats in the future, we only need to update the Factory without modifying the existing management logic. It offers better scalability than manual instantiation via direct constructors.
+* **Inventory Service (Port 8080):** Manages cataloging and real-time availability across diverse resource types (Physical Books, Digital Magazines, Audiobooks).
+* **Loan Service (Port 8081):** Handles checkout/checkin transactions, due-date monitoring, and automated late penalty calculations.
+* **Notification Service (Port 8082):** Consumes event messages asynchronously to process alerts and availability notifications.
+* **Message Broker (RabbitMQ):** Enables reliable, decoupled queue-based communication via `libraryQueue`.
 
-### 3. Observer (Behavioral)
-**Use in project:** Implemented within the reservation and availability alert system.
-**Justification:** When a highly requested book is currently on loan, users can subscribe to a waiting list. The Observer pattern allows the "Book" object to automatically notify all subscribed users as soon as its status changes to "Available." This eliminates the need for constant polling, optimizing system performance and improving user experience.
+---
 
-### 4. Strategy (Behavioral)
-**Use in project:** To calculate fine rates for overdue returns based on user types.
-**Justification:** Library policies often differ; for instance, students might have a standard daily fee, while professors might have a grace period or a reduced rate. The Strategy pattern encapsulates these calculation algorithms independently. This results in cleaner, more maintainable code, as business rule changes do not require modifications to the core "Loan" class.
+## 🧩 Software Design Patterns (GoF)
 
-## System Testing
-To verify the microservices functionality, a Postman collection has been included:
-1. Import the file `tests/Postman_Tests.json` into Postman.
-2. Ensure all three services are running on ports 8080 (Inventory), 8081 (Loan), and 8082 (Notification).
-3. Run the requests included in the collection to test the system.
+The core business logic leverages object-oriented design patterns to guarantee maintainability and extensibility:
 
-## Milestone 5: Message Queue Integration (RabbitMQ)
+1. **Singleton (Creational):** Encapsulates the centralized library catalog database handler, preventing concurrency conflicts and state inconsistencies across modules.
+2. **Factory Method (Creational):** Decouples material creation logic (`PhysicalBook`, `DigitalMagazine`, `Audiobook`), enabling seamless addition of future media formats.
+3. **Observer (Behavioral):** Implemented in the reservation alert pipeline; subscribed users are automatically notified when loaned resources transition back to `Available` without polling overhead.
+4. **Strategy (Behavioral):** Encapsulates interchangeable fine-calculation algorithms based on user role hierarchies (e.g., student rates vs. faculty grace periods).
 
-In this milestone, I integrated **RabbitMQ** to enable asynchronous communication between the `Loan Service` and the `Notification Service`.
+---
 
-### How it works:
-1. When a penalty is calculated in the `Loan Service`, it doesn't call the `Notification Service` directly.
-2. Instead, it sends a message to a RabbitMQ queue named `libraryQueue`.
-3. The `Notification Service` listens to this queue and processes the message as soon as it's available.
+## ⚡ Asynchronous Integration & Resilience (RabbitMQ)
 
-### Architecture Benefits :
-* **Decoupling:** The Loan Service doesn't need to know if the Notification Service is online or reachable. It only cares about the message broker.
-* **Fault Tolerance:** If the Notification Service goes down, messages stay safely in the queue. They are processed automatically once the service restarts.
-* **Scalability:** We can easily add more instances of the Notification Service to handle high traffic without affecting the Loan Service performance.
+* **Loose Coupling:** The Loan Service dispatches penalty events to RabbitMQ without needing direct knowledge of Notification Service availability.
+* **Fault Tolerance:** In the event of downstream service degradation, messages persist safely in `libraryQueue` until consumers reconnect.
+* **Horizontal Scalability:** Allows spinning up multiple notification worker instances to absorb traffic spikes without degrading transactional throughput.
 
-## CI/CD Pipeline (GitHub Actions)
+---
 
-I have implemented a Continuous Integration pipeline using **GitHub Actions**.
+## 🛠️ Tech Stack & DevOps
 
-### How it works:
-* **Trigger:** Every time code is pushed to the `5-university-library-management` branch, the pipeline starts automatically.
-* **Build Stage:** The pipeline sets up a Java 11 environment and compiles all microservices using Maven.
-* **Docker Stage:** It verifies the `Dockerfile` of each service and builds the images using `docker-compose`.
+* **Language & Build Tool:** Java 11, Apache Maven
+* **Architecture:** Distributed Microservices, Event-Driven Architecture (EDA)
+* **Message Broker:** RabbitMQ
+* **Containerization:** Docker, Docker Compose
+* **CI/CD Pipeline:** GitHub Actions (Automated Java 11 compilation and Docker multi-container build verification)
+* **API Testing:** Postman Test Suite (`tests/Postman_Tests.json`)
 
-### How to run the system (for grading)
-1. Clone the repository and move to the branch `5-university-library-management`.
-2. Ensure Docker is running.
-3. Open a terminal in the root folder and run:
-   `docker compose up --build`
-4. Use the provided Postman collection in the `/tests/Postman_Tests.json` folder to test the services.
+---
+
+## 🚀 Installation & Local Execution
+
+### Prerequisites
+* **Docker** and **Docker Compose** installed and running.
+* **Git** installed.
+
+### 1. Clone the repository and switch to the production branch
+```bash
+git clone [https://github.com/laueralor/university-library-microservices.git](https://github.com/laueralor/university-library-microservices.git)
+cd university-library-microservices
+git checkout 5-university-library-management
+```
+
+### 2. Launch the Microservices Cluster
+```bash
+docker compose up --build
+```
+
+The services will initialize on their respective ports:
+* **Inventory Service:** `http://localhost:8080`
+* **Loan Service:** `http://localhost:8081`
+* **Notification Service:** `http://localhost:8082`
+
+---
+
+## 🧪 System & Integration Testing
+
+Automated API and workflow validation is provided via Postman:
+
+1. Import `tests/Postman_Tests.json` into Postman.
+2. Ensure the Docker container cluster is healthy.
+3. Execute the collection runner to validate inter-service endpoints, queue events, and error handling.
+
+---
+
+## 👤 Author
+
+* **Laura Eraso Lorenzo** ([@laueralor](https://github.com/laueralor)) — Erasmus Student
